@@ -1,0 +1,46 @@
+const VerificationEmail = (username, otp) => {
+  return `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .otp {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ff5252;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+    <p>Hi <b>${username},</b></p>
+    <p>Thank you for using BlinkBasket. Please use the OTP below to verify your account.</p>
+    <center>
+      <div class="otp"><b>${otp}</b></div>
+    </center>
+    <p>If you did not create an account, you can safely ignore this email.</p>
+    <p>Best regards,<br> BlinkBasket Pvt Ltd</p>
+  </div>
+  </body>
+  </html>
+  `;
+};
+
+export default VerificationEmail;
