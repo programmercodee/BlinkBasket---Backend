@@ -1807,3 +1807,62 @@ export async function getProductSizeById(request, response) {
   }
 }
 
+export async function searchProductController(request, response) {
+  try {
+    // const query = request.query.q;
+
+    const {query,page , limit} = request.body;
+
+    if(!query){
+      return response.status(400).json({
+        message: "Query is required",
+        error: true,
+        success: false
+      });
+    }
+
+
+    const items = await ProductModel.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { brand: { $regex: query, $options: "i" } },
+        { catName: { $regex: query, $options: "i" } },
+        { subCat: { $regex: query, $options: "i" } },
+        { thirdsubCat: { $regex: query, $options: "i" } }
+      ]
+
+    }).populate("category")
+
+    const total = await items?.length
+
+    if (!items) {
+      return response.status(404).json({
+        message: "No products found",
+        error: true,
+        success: false
+      });
+    }
+
+    return response.status(200).json({
+      message: "Products found",
+      error: false,
+      success: true,
+      products: items,
+      total: total,
+      page: parseInt(page),
+      totalPage: Math.ceil(total / limit)
+    });
+
+
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    })
+  }
+}
+
+
+
+

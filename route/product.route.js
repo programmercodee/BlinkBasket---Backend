@@ -1,7 +1,7 @@
 import { Router } from "express";
 import auth from "../middlewares/auth.js";
 import upload from "../middlewares/multer.js";
-import { createProduct, createProductRAMS, createProductSize, createProductWEIGHT, deleteMultipleProduct, deleteMultipleProductRAMS, deleteMultipleProductSize, deleteMultipleProducWEIGHT, deleteProduct, deleteProductRAMS, deleteProductSize, deleteProductWEIGHT, filters, getAllFeaturedProducts, getAllProducts, getAllProductsByCatId, getAllProductsByCatName, getAllProductsByPrice, getAllProductsByRating, getAllProductsBySubCatId, getAllProductsBySubCatName, getAllProductsByThirdLevelCat, getAllProductsByThirdLevelCatName, getProduct, getProductRAMS, getProductRAMSById, getProductsCount, getProductSize, getProductSizeById, getProductWEIGHT, getProductWEIGHTById, removeImageFromCloudinary, updateProduct, updateProductRAMS, updateProductSize, updateProductWEIGHT, uploadCategoryImage } from "../controllers/product.controller.js";
+import { createProduct, createProductRAMS, createProductSize, createProductWEIGHT, deleteMultipleProduct, deleteMultipleProductRAMS, deleteMultipleProductSize, deleteMultipleProducWEIGHT, deleteProduct, deleteProductRAMS, deleteProductSize, deleteProductWEIGHT, filters, getAllFeaturedProducts, getAllProducts, getAllProductsByCatId, getAllProductsByCatName, getAllProductsByPrice, getAllProductsByRating, getAllProductsBySubCatId, getAllProductsBySubCatName, getAllProductsByThirdLevelCat, getAllProductsByThirdLevelCatName, getProduct, getProductRAMS, getProductRAMSById, getProductsCount, getProductSize, getProductSizeById, getProductWEIGHT, getProductWEIGHTById, removeImageFromCloudinary, searchProductController, updateProduct, updateProductRAMS, updateProductSize, updateProductWEIGHT, uploadCategoryImage } from "../controllers/product.controller.js";
 
 
 const productRouter = Router()
@@ -47,5 +47,6 @@ productRouter.get('/getproductSize/get', getProductSize)
 productRouter.get('/getproductSize/:id', getProductSizeById)
 
 productRouter.post('/filters', filters)
+productRouter.post('/search/get', searchProductController)
 
 export default productRouter;
