@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv'
 dotenv.config()
 
-if (!process.env.MONGODD_URL) {
+if (!process.env.MONGO_URL) {
   throw new Error(
-    "Please provide MONGODD_URL in the .env file"
+    "Please provide MONGO_URL in the .env file"
   )
 }
 
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGODD_URL)
+    await mongoose.connect(process.env.MONGO_URL)
     console.log("Connect DB")
   }
   catch (error) {

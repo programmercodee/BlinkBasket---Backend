@@ -22,7 +22,7 @@ app.options('*', cors())
 app.use(express.json())
 
 app.use(cookieParser())
-app.use(morgan())
+app.use(morgan('dev'))
 app.use(helmet({
   crossOriginEmbedderPolicy: false
 }))
