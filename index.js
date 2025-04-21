@@ -18,9 +18,9 @@ import orderRouter from './route/order.route.js'
 
 const app = express()
 app.use(cors({
-  origin: blink-basket-bwf5.vercel.app,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  // origin: blink-basket-bwf5.vercel.app,
+  // credentials: true,
+  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }))
 app.options('*', cors())
 app.use(express.json())
