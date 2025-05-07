@@ -17,11 +17,25 @@ import orderRouter from './route/order.route.js'
 
 
 const app = express()
+
+const allowedOrigins = [
+  'https://admin-panel-taupe-three-49.vercel.app', // your frontend domain
+  'http://localhost:3000' // for local development
+];
+
+// app.use(cors())
+
 app.use(cors({
-  // origin: blink-basket-bwf5.vercel.app,
-  // credentials: true,
-  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-}))
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
+}));
+
 app.options('*', cors())
 app.use(express.json())
 
