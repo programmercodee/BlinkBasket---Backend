@@ -40,7 +40,7 @@ app.use(helmet({
 app.get("/", (request, response) => {
   //server to client
   response.json({
-    message: "Server is running" + process.env.PORT
+    message: "Server is running : " + process.env.PORT
   })
 })
 
