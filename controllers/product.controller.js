@@ -32,24 +32,65 @@ export async function uploadCategoryImage(request, response) {
       overwrite: false
     }
 
-    //selecting multiple images from the user
-    for (let i = 0; i < request.files.length; i++) {
-      //uploading image on cloudinary.
-      const img = await cloudinary.uploader.upload(
-        image[i].path,
-        options,
+    // //selecting multiple images from the user
+    // for (let i = 0; i < request.files.length; i++) {
+    //   //uploading image on cloudinary.
+    //   const img = await cloudinary.uploader.upload(
+    //     image[i].path,options,
 
 
-        //callback function
-        function (error, result) {
-          console.log(result)
-          imagesArr.push(result.secure_url);
-          //deleting the image from "upload" folder for uploading on "cloudinary"
-          fs.unlinkSync(`uploads/${request.files[i].filename}`);
-          // console.log(request.files[i].filename)
+    //     //callback function
+    //     function (error, result) {
+    //       console.log(result)
+    //       imagesArr.push(result.secure_url);
+    //       //deleting the image from "upload" folder for uploading on "cloudinary"
+    //       fs.unlinkSync(`uploads/${request.files[i].filename}`);
+    //       // console.log(request.files[i].filename)
+    //     }
+    //   )
+    // }
+
+
+    // selecting multiple images from the user
+for (let i = 0; i < request.files.length; i++) {
+  const file = request.files[i];
+
+  const streamUpload = () => {
+    return new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          use_filename: true,
+          unique_filename: false,
+          overwrite: false
+        },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
         }
-      )
-    }
+      );
+
+      stream.end(file.buffer); // ✅ use buffer instead of local path
+    });
+  };
+
+  try {
+    const result = await streamUpload();
+    console.log(result);
+    imagesArr.push(result.secure_url); // ✅ collect uploaded image URLs
+  } catch (error) {
+    console.error('Cloudinary upload failed:', error);
+    return response.status(500).json({
+      message: 'Cloudinary upload failed',
+      error,
+      success: false
+    });
+  }
+}
+
+
 
 
     //sending back to the user.
