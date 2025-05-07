@@ -15,143 +15,64 @@ cloudinary.config({
 })
 
 
-import formidable from 'formidable';
-
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(200).end();
-  }
-
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
-  const form = new formidable.IncomingForm();
-
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Parsing error' });
-    }
-
-    // Example: you can save file or just return its info
-    return res.status(200).json({ message: 'File received', fields, files });
-  });
-}
-
-
-
 
 //image upload cloudinary
 var imagesArr = []
-// export async function uploadCategoryImage(request, response) {
-//   try {
-//     imagesArr = []
-
-//     const image = request.files
-
-//     // console.log(image)
-
-//     const options = {
-//       use_filename: true,
-//       uniqe_filename: false,
-//       overwrite: false
-//     }
-
-//     //selecting multiple images from the user
-//     for (let i = 0; i < request.files.length; i++) {
-//       //uploading image on cloudinary.
-//       const img = await cloudinary.uploader.upload(
-//         image[i].path,
-//         options,
-
-
-//         //callback function
-//         function (error, result) {
-//           console.log(result)
-//           imagesArr.push(result.secure_url);
-//           //deleting the image from "upload" folder for uploading on "cloudinary"
-//           fs.unlinkSync(`uploads/${request.files[i].filename}`);
-//           // console.log(request.files[i].filename)
-//         }
-//       )
-//     }
-
-
-//     //sending back to the user.
-//     return response.status(200).json({
-//       //this "images" is used in "category.router.js"
-//       images: imagesArr,
-//     })
-
-
-
-//   } catch (error) {
-
-//     return response.status(500).json({
-//       message: error.message || error,
-//       error: true,
-//       success: false
-//     })
-
-//   }
-// }
-
-
-//create product
-
-
-
-export async function uploadCategoryImage(req, res) {
+export async function uploadCategoryImage(request, response) {
   try {
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: 'No files uploaded' });
+    imagesArr = []
+
+    const image = request.files
+
+    // console.log(image)
+
+    const options = {
+      use_filename: true,
+      uniqe_filename: false,
+      overwrite: false
     }
 
-    const uploadedUrls = [];
+    //selecting multiple images from the user
+    for (let i = 0; i < request.files.length; i++) {
+      //uploading image on cloudinary.
+      const img = await cloudinary.uploader.upload(
+        image[i].path,
+        options,
 
-    for (let i = 0; i < req.files.length; i++) {
-      const file = req.files[i];
 
-      const result = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          {
-            folder: 'categories',
-            use_filename: true,
-            unique_filename: false,
-            overwrite: false,
-          },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
-        stream.end(file.buffer);
-      });
-
-      uploadedUrls.push(result.secure_url);
+        //callback function
+        function (error, result) {
+          console.log(result)
+          imagesArr.push(result.secure_url);
+          //deleting the image from "upload" folder for uploading on "cloudinary"
+          fs.unlinkSync(`uploads/${request.files[i].filename}`);
+          // console.log(request.files[i].filename)
+        }
+      )
     }
 
-    return res.status(200).json({ images: uploadedUrls });
+
+    //sending back to the user.
+    return response.status(200).json({
+      //this "images" is used in "category.router.js"
+      images: imagesArr,
+    })
+
+
+
   } catch (error) {
-    console.error('Cloudinary upload failed:', error);
-    return res.status(500).json({
-      message: 'Cloudinary upload failed',
-      error: error.message,
-      success: false,
-    });
+
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    })
+
   }
 }
 
 
+//create product
 export async function createProduct(request, response) {
   try {
 

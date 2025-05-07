@@ -14,38 +14,15 @@ import myListRouter from './route/mylist.route.js'
 import addressRouter from './route/address.route.js'
 import { addAddressController, getAddressController } from './controllers/address.controller.js'
 import orderRouter from './route/order.route.js'
-import fileUpload from 'express-fileupload';
+
 
 const app = express()
-
-// app.use(cors({
-//   origin:'https://admin-panel-taupe-three-49.vercel.app',
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-// }))
-
-
-
-
-const allowedOrigins = [
-  'https://admin-panel-taupe-three-49.vercel.app', // your frontend
-  'http://localhost:5174' // for local testing
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // only if you're using cookies/auth headers
-}));
-
-
+  // origin: blink-basket-bwf5.vercel.app,
+  // credentials: true,
+  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}))
 app.options('*', cors())
-
 app.use(express.json())
 
 app.use(cookieParser())
@@ -68,8 +45,7 @@ app.use('/api/cart', cartRouter)
 app.use('/api/myList', myListRouter)
 app.use('/api/address', addressRouter )
 app.use('/api/order' , orderRouter )
-app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload());
+
 
 connectDB().then(() => {
   app.listen(process.env.PORT, () => {
