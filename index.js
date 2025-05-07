@@ -18,21 +18,13 @@ import orderRouter from './route/order.route.js'
 
 const app = express()
 
-const allowedOrigins = [
-  'https://admin-panel-taupe-three-49.vercel.app', // your frontend domain
-  'http://localhost:3000' // for local development
-];
+
 
 // app.use(cors())
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
+  origin: ['https://admin-panel-taupe-three-49.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
@@ -57,8 +49,8 @@ app.use('/api/category', categoryRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/myList', myListRouter)
-app.use('/api/address', addressRouter )
-app.use('/api/order' , orderRouter )
+app.use('/api/address', addressRouter)
+app.use('/api/order', orderRouter)
 
 
 connectDB().then(() => {
