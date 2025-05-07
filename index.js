@@ -17,28 +17,11 @@ import orderRouter from './route/order.route.js'
 
 
 const app = express()
-
-
-
-// app.use(cors())
-
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://admin-panel-taupe-three-49.vercel.app'
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
-
-
+  // origin: blink-basket-bwf5.vercel.app,
+  // credentials: true,
+  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}))
 app.options('*', cors())
 app.use(express.json())
 
@@ -51,7 +34,7 @@ app.use(helmet({
 app.get("/", (request, response) => {
   //server to client
   response.json({
-    message: "Server is running : " + process.env.PORT
+    message: "Server is running" + process.env.PORT
   })
 })
 
@@ -60,8 +43,8 @@ app.use('/api/category', categoryRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/myList', myListRouter)
-app.use('/api/address', addressRouter)
-app.use('/api/order', orderRouter)
+app.use('/api/address', addressRouter )
+app.use('/api/order' , orderRouter )
 
 
 connectDB().then(() => {
