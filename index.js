@@ -22,13 +22,24 @@ const app = express()
 
 // app.use(cors())
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://admin-panel-taupe-three-49.vercel.app'
+];
+
 app.use(cors({
-  origin: ['https://admin-panel-taupe-three-49.vercel.app' , 'http://localhost:5174'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
 
-// app.options('*', cors())
+
+app.options('*', cors())
 app.use(express.json())
 
 app.use(cookieParser())
