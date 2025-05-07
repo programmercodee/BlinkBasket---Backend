@@ -17,12 +17,33 @@ import orderRouter from './route/order.route.js'
 
 
 const app = express()
-app.use(cors({
-  origin:'https://admin-panel-taupe-three-49.vercel.app',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-}))
+
+// app.use(cors({
+//   origin:'https://admin-panel-taupe-three-49.vercel.app',
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+// }))
+
 app.options('*', cors())
+
+
+const allowedOrigins = [
+  'https://admin-panel-taupe-three-49.vercel.app', // your frontend
+  'http://localhost:3000' // for local testing
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // only if you're using cookies/auth headers
+}));
+
+
 app.use(express.json())
 
 app.use(cookieParser())
