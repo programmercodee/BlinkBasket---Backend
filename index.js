@@ -29,7 +29,7 @@ const app = express()
 
 const allowedOrigins = [
   'https://admin-panel-taupe-three-49.vercel.app', // your frontend
-  'http://localhost:3000' // for local testing
+  'http://localhost:5174' // for local testing
 ];
 
 app.use(cors({

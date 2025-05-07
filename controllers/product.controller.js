@@ -15,6 +15,40 @@ cloudinary.config({
 })
 
 
+import formidable from 'formidable';
+
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(req, res) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end();
+  }
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Parsing error' });
+    }
+
+    // Example: you can save file or just return its info
+    return res.status(200).json({ message: 'File received', fields, files });
+  });
+}
+
+
+
 
 //image upload cloudinary
 var imagesArr = []
