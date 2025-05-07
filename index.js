@@ -23,7 +23,7 @@ const app = express()
 // app.use(cors())
 
 app.use(cors({
-  origin: ['https://admin-panel-taupe-three-49.vercel.app'],
+  origin: ['https://admin-panel-taupe-three-49.vercel.app' , 'http://localhost:5174'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
